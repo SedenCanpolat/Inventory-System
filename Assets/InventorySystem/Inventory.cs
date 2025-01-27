@@ -14,6 +14,10 @@ public class Inventory : MonoBehaviour
 
     public Item ItemOnHand => _inventoryUI.SelectedItem; // getter
 
+    public void EmptyHand(){
+        _inventoryUI.UnSelectItem();
+    }
+
     public bool AddItem(Item item){
         if(item != null){
             _inventory.Add(item);
@@ -23,7 +27,6 @@ public class Inventory : MonoBehaviour
         else{
             Debug.LogError("Item is null");
         }
-    
         return false;
     }
 

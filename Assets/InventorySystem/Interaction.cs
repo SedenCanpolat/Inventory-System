@@ -10,10 +10,20 @@ public class Interaction : MonoBehaviour
         var seenObject = _raycast();
 
         if(Input.GetMouseButtonDown(0)){
-            if(seenObject && seenObject.IsInteractable()){
-                seenObject.Interact(Inventory.instance.ItemOnHand);
-            }
-            
+               if(seenObject && seenObject.IsInteractable()){
+                    seenObject.Interact(null);
+               }  
+        }
+
+        if(Input.GetMouseButtonUp(0)){
+               if(seenObject && seenObject.IsInteractable() && Inventory.instance.ItemOnHand){
+                    if(seenObject.Interact(Inventory.instance.ItemOnHand)){
+                         var item = Inventory.instance.ItemOnHand;
+                         Inventory.instance.EmptyHand();
+                         Inventory.instance.RemoveItem(item);
+                    }
+               }
+               Inventory.instance.EmptyHand();    
         }
         
         print(seenObject?.name);
@@ -27,7 +37,6 @@ public class Interaction : MonoBehaviour
         if( Physics.Raycast(ray,out raycastHit)){
              raycastHit.collider.TryGetComponent(out seen);
         }
-
         return seen;
    }
 }
